@@ -28,7 +28,7 @@ if os_type == 'Darwin': expected_ld_library_extension = 'dylib'
 if pkg_installer:
     expected_lib_dir_path = f'/Library/Frameworks/Python.framework/Versions/{version_major}.{version_minor}/lib'
 else:
-    expected_lib_dir_path = f'{os.getenv("AGENT_TOOLSDIRECTORY")}/Python/{version}/x64/lib'
+    expected_lib_dir_path = f'{os.getenv("AGENT_TOOLSDIRECTORY")}/Python/{version}/{architecture}/lib'
 
 # Check modules
 ### Validate libraries path
@@ -54,15 +54,15 @@ else:
 if os_type == 'Darwin':
     ### Validate openssl links
     if version_major == 3 and version_minor < 7:
-        expected_ldflags = '-L/usr/local/opt/openssl@1.1/lib'
+        expected_ldflags = '-L/usr/local/opt/openssl@3/lib'
         ldflags = sysconfig.get_config_var('LDFLAGS')
 
         if not expected_ldflags in ldflags:
             print('Invalid ldflags: %s; Expected: %s' % (ldflags, expected_ldflags))
             exit(1)
     else:
-        expected_openssl_includes = '-I/usr/local/opt/openssl@1.1/include'
-        expected_openssl_ldflags ='-L/usr/local/opt/openssl@1.1/lib'
+        expected_openssl_includes = '-I/usr/local/opt/openssl@3/include'
+        expected_openssl_ldflags ='-L/usr/local/opt/openssl@3/lib'
 
         openssl_includes = sysconfig.get_config_var('OPENSSL_INCLUDES')
         openssl_ldflags = sysconfig.get_config_var('OPENSSL_LDFLAGS')
